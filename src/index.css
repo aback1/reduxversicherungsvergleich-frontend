@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.overflow-y-auto {
+    overflow-y: auto;
+}
+
+.max-h-screen {
+    max-height: 100vh;
+}
+
+.p-4 {
+    padding: 1rem;
+}
+
+.autofill-bg:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: #000000; /* Set the text color for autofilled text */
+}
+
+.autofill-bg:-webkit-autofill:focus {
+    border-color: #1d4ed8; /* Match the focus border color */
+}
+
