@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
 
-const authSlice = createSlice({
-  name: "auth",
-  initialState: {
     isLoggedIn: false,
     currentUser: "",
     showVersicherungsModal: false,
@@ -19,7 +17,11 @@ const authSlice = createSlice({
         insuranceDataComplete: false,
       },
     ],
-  },
+};
+
+const authSlice = createSlice({
+  name: "auth",
+  initialState: initialState,
   reducers: {
     login: (state, action) => {
       state.isLoggedIn = true;
@@ -47,8 +49,11 @@ const authSlice = createSlice({
     setAktuelleKrankenversicherung: (state, action) => {
       state.aktuelleKrankenversicherung = action.payload;
     },
+    resetUserState: () => {
+      return initialState;
+    }
   },
 });
 
-export const { login, logout, setCurrentUser, setUsers, setJob, setInsuranceDataComplete, setbruttoAnnualPay, setAktuelleKrankenversicherung } = authSlice.actions;
+export const { login, logout, setCurrentUser, setUsers, setJob, setInsuranceDataComplete, setbruttoAnnualPay, setAktuelleKrankenversicherung, resetUserState } = authSlice.actions;
 export default authSlice.reducer;

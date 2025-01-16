@@ -1,19 +1,23 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
-import { setInsuranceDataComplete, setbruttoAnnualPay, setJob, setAktuelleKrankenversicherung } from "../../features/auth/authSlice.js"; // Import the action to set insuranceDataComplete
+import { setInsuranceDataComplete, setbruttoAnnualPay, setJob, setAktuelleKrankenversicherung } from "../../features/auth/authSlice.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import '../../index.css';
 import background from "../../assets/background.png";
+import { useSearchParams } from "react-router-dom";
 
 export default function InsuranceForm() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
-  const [aktuelleVersicherung, setAktuelleVersicherung] = useState("Core Care");
-  const [jahresBrutto, setJahresBrutto] = useState(0);
-  const [arbeitsverhältnis, setArbeitsverhältnis] = useState("");
+
   const insuranceDataComplete = useSelector(
       (state) => state.auth.insuranceDataComplete,
   );
+
+  //useState ersetzt durch UseSearchParams
+  const aktuelleVersicherung = searchParams.get("aktuelleVersicherung") || "Core Care";
+  const jahresBrutto = searchParams.get("jahresBrutto") || "";
+  const arbeitsverhältnis = searchParams.get("arbeitsverhältnis") || "";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,19 +27,21 @@ export default function InsuranceForm() {
     dispatch(setInsuranceDataComplete(true));
   };
 
-  const handleChange = (e) => {
-    console.log(e.target.value);
-    setAktuelleVersicherung(e.target.value);
-  }
+  const updateSearchParams = (key, value) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set(key, value);
+    setSearchParams(newParams);
+  };
 
   return (
       <>
-
         {!insuranceDataComplete && (
-            <div className="flex items-center justify-center min-h-screen bg-cover bg-center"
-                 style={{
-                   backgroundImage: `url(${background})`,
-                 }}>
+            <div
+                className="flex items-center justify-center min-h-screen bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${background})`,
+                }}
+            >
               <div className="bg-orange-800 p-8 rounded-lg shadow-lg w-full max-w-2xl">
                 <h2 className="text-2xl font-bold mb-6 text-white">Ihre Angaben</h2>
                 <form onSubmit={handleSubmit}>
@@ -45,7 +51,7 @@ export default function InsuranceForm() {
                       <select
                           className="w-full p-2 border border-gray-300 rounded text-gray-800"
                           value={aktuelleVersicherung}
-                          onChange={handleChange}
+                          onChange={(e) => updateSearchParams("aktuelleVersicherung", e.target.value)}
                       >
                         <option value="Core Care">Core Care</option>
                         <option value="Lorem Ipsum">Lorem Ipsum</option>
@@ -53,10 +59,7 @@ export default function InsuranceForm() {
                         <option value="Guardian Care">Guardian Care</option>
                       </select>
                       <div className="ml-2 tooltip">
-                        <FontAwesomeIcon
-                            icon={faQuestionCircle}
-                            className="text-white"
-                        />
+                        <FontAwesomeIcon icon={faQuestionCircle} className="text-white" />
                         <span className="tooltiptext">Wählen Sie Ihre aktuelle Krankenversicherung aus.</span>
                       </div>
                     </div>
@@ -66,16 +69,13 @@ export default function InsuranceForm() {
                     <div className="flex items-center">
                       <input
                           type="number"
-                          placeholder="Bitte geben Sie ihren Jahresbrutto verdienst an."
+                          placeholder="Bitte geben Sie ihren Jahresbrutto Verdienst an."
                           className="w-full p-2 border border-gray-300 rounded text-gray-800"
                           value={jahresBrutto}
-                          onChange={(e) => setJahresBrutto(e.target.value)}
+                          onChange={(e) => updateSearchParams("jahresBrutto", e.target.value)}
                       />
                       <div className="ml-2 tooltip">
-                        <FontAwesomeIcon
-                            icon={faQuestionCircle}
-                            className="text-white"
-                        />
+                        <FontAwesomeIcon icon={faQuestionCircle} className="text-white" />
                         <span className="tooltiptext">Geben Sie Ihr jährliches Bruttogehalt an. Wenn Sie es nicht kennen, schätzen Sie es bitte.</span>
                       </div>
                     </div>
@@ -86,7 +86,7 @@ export default function InsuranceForm() {
                       <select
                           className="w-full p-2 border border-gray-300 rounded text-gray-800"
                           value={arbeitsverhältnis}
-                          onChange={(e) => setArbeitsverhältnis(e.target.value)}
+                          onChange={(e) => updateSearchParams("arbeitsverhältnis", e.target.value)}
                       >
                         <option value="schüler">Schüler</option>
                         <option value="arbeitnehmer">Arbeitnehmer</option>
@@ -94,10 +94,7 @@ export default function InsuranceForm() {
                         <option value="rentner">Rentner</option>
                       </select>
                       <div className="ml-2 tooltip">
-                        <FontAwesomeIcon
-                            icon={faQuestionCircle}
-                            className="text-white"
-                        />
+                        <FontAwesomeIcon icon={faQuestionCircle} className="text-white" />
                         <span className="tooltiptext">Wählen Sie Ihr Arbeitsverhältnis aus.</span>
                       </div>
                     </div>

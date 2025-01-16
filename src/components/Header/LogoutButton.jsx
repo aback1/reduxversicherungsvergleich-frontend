@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../features/auth/authSlice.js";
+import {logout, resetUserState} from "../../features/auth/authSlice.js";
 import { useNavigate } from "react-router-dom";
 
 export default function LogoutButton() {
@@ -8,6 +8,7 @@ export default function LogoutButton() {
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn || false);
 
     function handleLogout() {
+        dispatch(resetUserState());
         dispatch(logout());
         navigate("/login");
     }

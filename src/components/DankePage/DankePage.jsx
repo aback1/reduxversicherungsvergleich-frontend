@@ -27,7 +27,7 @@ export default function DankePage() {
             <div className="text-center">
                 <h2 className="text-2xl font-bold mb-4">Vielen Dank für Ihren Versicherungswechsel!</h2>
                 <p className="text-gray-600 mb-4">
-                    Die Vertragsdetails werden Ihnen per E-Mail zugesendet.
+                    Die Vertragsdetails werden Ihnen per E-Mail zugesandt.
                 </p>
                 <p className="text-gray-600 mb-4">
                     Wir freuen uns, Sie als Kunden zu haben!
